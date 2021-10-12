@@ -1,9 +1,8 @@
 {
   "name": "@regedit-msc/manga_raw_scraper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A scraper for manga raw.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon index"
   },
@@ -11,8 +10,8 @@
   "author": "Regedit-msc",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.10",
-    "node-fetch": "^3.0.0"
+    "axios": "^0.23.0",
+    "cheerio": "^1.0.0-rc.10"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

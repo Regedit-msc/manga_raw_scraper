@@ -1,11 +1,19 @@
-import cheerio from "cheerio";
-import fetch from "node-fetch";
+const axios = require("axios");
+const cheerio = require("cheerio");
 const baseUrl = "https://www.manga-raw.club";
 const mangaUpdates = "/listy/manga/";
 const mangasByMostUpdatedPaginated = "/listy/manga/?results=";
 const search = "/lmangasearch?inputContent=";
+const fetch = async (url) => {
+  const { data } = await axios.get(url);
+  return {
+    text: () => {
+      return data;
+    },
+  };
+};
 
-export async function newManga() {
+async function newManga() {
   const res = await fetch(baseUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -24,11 +32,10 @@ export async function newManga() {
       imageUrl,
     };
   });
-
   return arrayOfManga;
 }
 
-export const mostViewed = async () => {
+const mostViewed = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -48,7 +55,7 @@ export const mostViewed = async () => {
   });
   return mostViewedMangaList;
 };
-export const mostCliked = async () => {
+const mostCliked = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -69,7 +76,7 @@ export const mostCliked = async () => {
   return mostClickedMangaList;
 };
 
-export const mangasByMostUpdated = async (page) => {
+const mangasByMostUpdated = async (page) => {
   const res = await fetch(baseUrl + mangasByMostUpdatedPaginated + page);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -92,7 +99,7 @@ export const mangasByMostUpdated = async (page) => {
   return theMangas;
 };
 
-export const mangaFromMangaUrl = async (mangaUrl) => {
+const mangaFromMangaUrl = async (mangaUrl) => {
   const res = await fetch(baseUrl + mangaUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -137,7 +144,7 @@ export const mangaFromMangaUrl = async (mangaUrl) => {
   };
 };
 
-export const mangaReader = async (chapterUrl) => {
+const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -155,7 +162,7 @@ export const mangaReader = async (chapterUrl) => {
   return { chapter, images: finalImageArray };
 };
 
-export const mangaByGenre = async (genreUrl) => {
+const mangaByGenre = async (genreUrl) => {
   const res = await fetch(baseUrl + genreUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -172,7 +179,7 @@ export const mangaByGenre = async (genreUrl) => {
   return mangas;
 };
 
-export const mangaSearch = async (term) => {
+const mangaSearch = async (term) => {
   const res = await fetch(baseUrl + search + term);
   const json = await res.json();
   const $ = cheerio.load(json.resultview);
@@ -184,4 +191,17 @@ export const mangaSearch = async (term) => {
     return { mangaUrl, title, imageUrl };
   });
   return results;
+};
+module.exports = {
+  newManga,
+  mangaByGenre,
+  mangaByGenre,
+  mangaUpdates,
+  mangaReader,
+  mangasByMostUpdated,
+  mangasByMostUpdatedPaginated,
+  mangaSearch,
+  mangaFromMangaUrl,
+  mostCliked,
+  mostViewed,
 };
