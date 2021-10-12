@@ -5,7 +5,7 @@ const mangaUpdates = "/listy/manga/";
 const mangasByMostUpdatedPaginated = "/listy/manga/?results=";
 const search = "/lmangasearch?inputContent=";
 
-async function newManga() {
+export async function newManga() {
   const res = await fetch(baseUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -25,10 +25,10 @@ async function newManga() {
     };
   });
 
-  console.log(arrayOfManga, "New manga");
+  return arrayOfManga;
 }
 
-const mostViewed = async () => {
+export const mostViewed = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -46,9 +46,9 @@ const mostViewed = async () => {
       status,
     };
   });
-  console.log(mostViewedMangaList);
+  return mostViewedMangaList;
 };
-const mostCliked = async () => {
+export const mostCliked = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -66,10 +66,10 @@ const mostCliked = async () => {
       score,
     };
   });
-  console.log(mostClickedMangaList);
+  return mostClickedMangaList;
 };
 
-const mangasByMostUpdated = async (page) => {
+export const mangasByMostUpdated = async (page) => {
   const res = await fetch(baseUrl + mangasByMostUpdatedPaginated + page);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -89,10 +89,10 @@ const mangasByMostUpdated = async (page) => {
       status,
     };
   });
-  console.log("Mangas", theMangas);
+  return theMangas;
 };
 
-const mangaFromMangaUrl = async (mangaUrl) => {
+export const mangaFromMangaUrl = async (mangaUrl) => {
   const res = await fetch(baseUrl + mangaUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -124,7 +124,7 @@ const mangaFromMangaUrl = async (mangaUrl) => {
       dateUploaded,
     };
   });
-  console.log("Manga", {
+  return {
     mangaImage,
     author,
     chapterNo: chapters ? chapters.split(" ")[1].split("-")[0] : "",
@@ -134,10 +134,10 @@ const mangaFromMangaUrl = async (mangaUrl) => {
     summary,
     chapterList,
     genres,
-  });
+  };
 };
 
-const mangaReader = async (chapterUrl) => {
+export const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -152,10 +152,10 @@ const mangaReader = async (chapterUrl) => {
       console.log(image);
       finalImageArray.push(image);
     });
-  console.log("Manga", { chapter, images: finalImageArray });
+  return { chapter, images: finalImageArray };
 };
 
-const mangaByGenre = async (genreUrl) => {
+export const mangaByGenre = async (genreUrl) => {
   const res = await fetch(baseUrl + genreUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
@@ -169,10 +169,10 @@ const mangaByGenre = async (genreUrl) => {
     const summary = $(v).find("a > .summary").text().trim();
     return { mangaUrl, mangaTitle, mangaImage, author, stats, stats, summary };
   });
-  console.log(mangas);
+  return mangas;
 };
 
-const mangaSearch = async (term) => {
+export const mangaSearch = async (term) => {
   const res = await fetch(baseUrl + search + term);
   const json = await res.json();
   const $ = cheerio.load(json.resultview);
@@ -183,6 +183,5 @@ const mangaSearch = async (term) => {
     const imageUrl = $(v).find("figure > img").attr("src");
     return { mangaUrl, title, imageUrl };
   });
-  console.log(results);
+  return results;
 };
-mangaSearch("office");

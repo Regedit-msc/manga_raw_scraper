@@ -1,14 +1,14 @@
 {
   "name": "manga_raw_scraper",
   "version": "1.0.0",
-  "description": "",
+  "description": "A scraper for manga raw.",
   "main": "index.js",
   "type": "module",
   "scripts": {
    "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "",
+  "author": "Regedit-msc",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
