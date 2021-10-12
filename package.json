@@ -1,11 +1,11 @@
 {
-  "name": "manga_raw_scraper",
+  "name": "@regedit-msc/manga_raw_scraper",
   "version": "1.0.0",
   "description": "A scraper for manga raw.",
   "main": "index.js",
   "type": "module",
   "scripts": {
-   "dev": "nodemon index"
+    "dev": "nodemon index"
   },
   "keywords": [],
   "author": "Regedit-msc",
@@ -16,5 +16,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Regedit-msc/manga_raw_scraper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Regedit-msc/manga_raw_scraper/issues"
+  },
+  "homepage": "https://github.com/Regedit-msc/manga_raw_scraper#readme"
 }
