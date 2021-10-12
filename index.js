@@ -7,6 +7,7 @@ const search = "/lmangasearch?inputContent=";
 const fetch = async (url) => {
   const { data } = await axios.get(url);
   return {
+    ...data,
     text: () => {
       return data;
     },
@@ -156,7 +157,6 @@ const mangaReader = async (chapterUrl) => {
     .each((i, e) => {
       const image = $(e).attr("src");
       chapter = $(e).attr("alt");
-      console.log(image);
       finalImageArray.push(image);
     });
   return { chapter, images: finalImageArray };
@@ -181,8 +181,7 @@ const mangaByGenre = async (genreUrl) => {
 
 const mangaSearch = async (term) => {
   const res = await fetch(baseUrl + search + term);
-  const json = await res.json();
-  const $ = cheerio.load(json.resultview);
+  const $ = cheerio.load(res.resultview);
   const listOfResults = $(".novel-list.grid > .novel-item").toArray();
   const results = listOfResults.map((v, i) => {
     const mangaUrl = $(v).find("a").attr("href");
@@ -196,10 +195,8 @@ module.exports = {
   newManga,
   mangaByGenre,
   mangaByGenre,
-  mangaUpdates,
   mangaReader,
   mangasByMostUpdated,
-  mangasByMostUpdatedPaginated,
   mangaSearch,
   mangaFromMangaUrl,
   mostCliked,
