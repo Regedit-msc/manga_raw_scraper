@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 const baseUrl = "https://www.manga-raw.club";
 const mangaUpdates = "/listy/manga/";
 const mangasByMostUpdatedPaginated = "/listy/manga/?results=";
+const search = "/lmangasearch?inputContent=";
 
 async function newManga() {
   const res = await fetch(baseUrl);
@@ -170,3 +171,18 @@ const mangaByGenre = async (genreUrl) => {
   });
   console.log(mangas);
 };
+
+const mangaSearch = async (term) => {
+  const res = await fetch(baseUrl + search + term);
+  const json = await res.json();
+  const $ = cheerio.load(json.resultview);
+  const listOfResults = $(".novel-list.grid > .novel-item").toArray();
+  const results = listOfResults.map((v, i) => {
+    const mangaUrl = $(v).find("a").attr("href");
+    const title = $(v).find("a").attr("title");
+    const imageUrl = $(v).find("figure > img").attr("src");
+    return { mangaUrl, title, imageUrl };
+  });
+  console.log(results);
+};
+mangaSearch("office");
