@@ -135,7 +135,7 @@ const mangaFromMangaUrl = async (mangaUrl) => {
     genres,
   });
 };
-mangaFromMangaUrl("/manga/history-of-three-states/");
+
 const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
@@ -152,4 +152,21 @@ const mangaReader = async (chapterUrl) => {
       finalImageArray.push(image);
     });
   console.log("Manga", { chapter, images: finalImageArray });
+};
+
+const mangaByGenre = async (genreUrl) => {
+  const res = await fetch(baseUrl + genreUrl);
+  const html = await res.text();
+  const $ = cheerio.load(html);
+  const genreMangaContainer = $(".novel-list > li").toArray();
+  const mangas = genreMangaContainer.map((v, i) => {
+    const mangaUrl = $(v).find("a").attr("href");
+    const mangaTitle = $(v).find("a").attr("title");
+    const mangaImage = $(v).find("a > .cover-wrap > figure > img").attr("src");
+    const author = $(v).find("a> h6").text().trim();
+    const stats = $(v).find("a > .novel-stats > strong").text().trim();
+    const summary = $(v).find("a > .summary").text().trim();
+    return { mangaUrl, mangaTitle, mangaImage, author, stats, stats, summary };
+  });
+  console.log(mangas);
 };
