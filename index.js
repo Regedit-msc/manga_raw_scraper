@@ -104,6 +104,15 @@ const mangaFromMangaUrl = async (mangaUrl) => {
   const description = $(".description").text();
   const summary = $(".summary").text().replace("Summary", "");
   const chapterListContainer = $(".chapter-list > li").toArray();
+  const genresList = $(".categories > ul > li").toArray();
+  const genres = genresList.map((v, i) => {
+    const genre = $(v).find("a").text().trim();
+    const genreUrl = $(v).find("a").attr("href");
+    return {
+      genre,
+      genreUrl,
+    };
+  });
   const chapterList = chapterListContainer.map((c, i) => {
     const chapterUrl = $(c).find("a").attr("href");
     const chapterTitle = $(c).find("a").attr("title");
@@ -123,9 +132,10 @@ const mangaFromMangaUrl = async (mangaUrl) => {
     description,
     summary,
     chapterList,
+    genres,
   });
 };
-
+mangaFromMangaUrl("/manga/history-of-three-states/");
 const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
