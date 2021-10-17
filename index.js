@@ -170,7 +170,9 @@ const mangaByGenre = async (genreUrl) => {
   const mangas = genreMangaContainer.map((v, i) => {
     const mangaUrl = $(v).find("a").attr("href");
     const mangaTitle = $(v).find("a").attr("title");
-    const mangaImage = $(v).find("a > .cover-wrap > figure > img").attr("src");
+    const mangaImage =
+      $(v).find("a > .cover-wrap > figure > img").attr("data-src") ??
+      $(v).find("a > .cover-wrap > figure > img").attr("src");
     const author = $(v).find("a> h6").text().trim();
     const stats = $(v).find("a > .novel-stats > strong").text().trim();
     const summary = $(v).find("a > .summary").text().trim();
