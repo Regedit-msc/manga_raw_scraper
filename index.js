@@ -114,6 +114,13 @@ const mangaFromMangaUrl = async (mangaUrl) => {
   const summary = $(".summary").text().replace("Summary", "");
   const chapterListContainer = $(".chapter-list > li").toArray();
   const genresList = $(".categories > ul > li").toArray();
+  const recommendationsContainer = $(".section-body > ul > li").toArray();
+  const recommendations = recommendationsContainer.map((e, i) => {
+      const title = $(e).find("a").attr("title");
+      const mangaImage =  $(e).find("a > figure > img").attr("data-src");     
+      const mangaUrl = $(e).find("a").attr("href");
+      return {title,mangaImage,mangaUrl }
+  });
   const genres = genresList.map((v, i) => {
     const genre = $(v).find("a").text().trim();
     const genreUrl = $(v).find("a").attr("href");
@@ -142,6 +149,7 @@ const mangaFromMangaUrl = async (mangaUrl) => {
     summary,
     chapterList,
     genres,
+    recommendations
   };
 };
 
@@ -204,9 +212,6 @@ const mangaSearch = async (term) => {
   });
   return results;
 };
-
-mangaReader("/reader/en/solo-max-level-newbie-chapter-0-eng-li/");
-
 module.exports = {
   newManga,
   mangaByGenre,
