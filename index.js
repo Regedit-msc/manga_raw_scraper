@@ -150,6 +150,17 @@ const mangaReader = async (chapterUrl) => {
   const html = await res.text();
   const $ = cheerio.load(html);
   const imageChapterContainer = $(".page-in >div").toArray()[1];
+  const chapterListContainer = $(".chapternav").toArray()[0];
+  const chapterListMainContainer = $(chapterListContainer)
+    .find("select > option")
+    .toArray();
+  let chapterList = [];
+  $(chapterListMainContainer).each((i, e) => {
+    const chapter = $(e).attr("value");
+    if (chapter != null && chapter != "") {
+      chapterList.push(chapter);
+    }
+  });
   const finalImageArray = [];
   let chapter;
   $(imageChapterContainer)
@@ -159,7 +170,7 @@ const mangaReader = async (chapterUrl) => {
       chapter = $(e).attr("alt");
       finalImageArray.push(image);
     });
-  return { chapter, images: finalImageArray };
+  return { chapter, images: finalImageArray, chapterList };
 };
 
 const mangaByGenre = async (genreUrl) => {
@@ -193,6 +204,9 @@ const mangaSearch = async (term) => {
   });
   return results;
 };
+
+mangaReader("/reader/en/solo-max-level-newbie-chapter-0-eng-li/");
+
 module.exports = {
   newManga,
   mangaByGenre,
