@@ -157,7 +157,7 @@ const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
-  const imageChapterContainer = $(".page-in >div").toArray()[1];
+  const imageChapterContainer = $("main > article > div").toArray()[1];
   const chapterListContainer = $(".chapternav").toArray()[0];
   const chapterListMainContainer = $(chapterListContainer)
     .find("select > option")
@@ -212,6 +212,8 @@ const mangaSearch = async (term) => {
   });
   return results;
 };
+
+
 module.exports = {
   newManga,
   mangaByGenre,
