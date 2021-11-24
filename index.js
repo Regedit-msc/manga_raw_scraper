@@ -157,7 +157,9 @@ const mangaReader = async (chapterUrl) => {
   const res = await fetch(baseUrl + chapterUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
-  const imageChapterContainer = $(".page-in >div").toArray()[0];
+  const imageChapterContainer = $(
+    $($(".page-in> center").toArray()[1]).find("div").toArray()[3]
+  );
   const chapterListContainer = $(".chapternav").toArray()[0];
   const chapterListMainContainer = $(chapterListContainer)
     .find("select > option")
@@ -178,6 +180,8 @@ const mangaReader = async (chapterUrl) => {
       chapter = $(e).attr("alt");
       finalImageArray.push(image);
     });
+  console.log(finalImageArray);
+
   return { chapter, images: finalImageArray, chapterList };
 };
 
@@ -213,6 +217,7 @@ const mangaSearch = async (term) => {
   return results;
 };
 
+mangaReader("/reader/en/limit-breaker-chapter-1-eng-li/");
 
 module.exports = {
   newManga,
