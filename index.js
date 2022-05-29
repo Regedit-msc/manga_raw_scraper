@@ -1,11 +1,14 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const baseUrl = "https://www.manga-raw.club";
+const baseUrl = "https://www.mcreader.net";
+const backUpUrl = "https://www.manga-raw.club";
 const mangaUpdates = "/listy/manga/";
 const mangasByMostUpdatedPaginated = "/listy/manga/?results=";
-const search = "/lmangasearch?inputContent=";
+const search2 = "/lmangasearch?inputContent=";
+const search = "/api/v1/searchresults/?format=json&query=";
 const fetch = async (url) => {
   const { data } = await axios.get(url);
+  // console.log(data);
   return {
     ...data,
     text: () => {
@@ -18,10 +21,12 @@ async function newManga() {
   const res = await fetch(baseUrl);
   const html = await res.text();
   const $ = cheerio.load(html);
-  const newManga = $(".container.vspace").toArray()[1];
-  const children = newManga.children.filter((v, i) => i !== 0);
-  const mangaListContainer = $(children[2]).children(".novel-list")[0];
-  const newmangaList = $(mangaListContainer).find(".novel-item");
+  const newManga = $("main > article .vspace .section-body").toArray()[0];
+  // const newMangaDiv = $(newManga).children(".novel-list .grid");
+
+  // const children = newManga.children.filter((v, i) => i !== 0);
+  // const mangaListContainer = $(children[2]).children(".novel-list")[0];
+  const newmangaList = $(newManga).find(".novel-item");
   const mangaLi = newmangaList.toArray().map((m) => m);
   const arrayOfManga = mangaLi.map((m, i) => {
     const title = $(m).find("a").attr("title");
@@ -35,7 +40,6 @@ async function newManga() {
   });
   return arrayOfManga;
 }
-
 const mostViewed = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
@@ -45,7 +49,7 @@ const mostViewed = async () => {
   const mostViewedMangaList = mostViewedUl.map((m, i) => {
     const title = $(m).find("a").attr("title");
     const mangaUrl = $(m).find("a").attr("href") ?? "No Info";
-    const imageUrl = $(m).find("a > figure > img").attr("src");
+    const imageUrl = $(m).find("a > figure > img").attr("data-src");
     const status = $(m).find("a > figure > .status").text() ?? "No info";
     return {
       mangaUrl,
@@ -56,6 +60,7 @@ const mostViewed = async () => {
   });
   return mostViewedMangaList;
 };
+
 const mostCliked = async () => {
   const res = await fetch(baseUrl + mangaUpdates);
   const html = await res.text();
@@ -116,10 +121,10 @@ const mangaFromMangaUrl = async (mangaUrl) => {
   const genresList = $(".categories > ul > li").toArray();
   const recommendationsContainer = $(".section-body > ul > li").toArray();
   const recommendations = recommendationsContainer.map((e, i) => {
-      const title = $(e).find("a").attr("title");
-      const mangaImage =  $(e).find("a > figure > img").attr("data-src");     
-      const mangaUrl = $(e).find("a").attr("href");
-      return {title,mangaImage,mangaUrl }
+    const title = $(e).find("a").attr("title");
+    const mangaImage = $(e).find("a > figure > img").attr("data-src");
+    const mangaUrl = $(e).find("a").attr("href");
+    return { title, mangaImage, mangaUrl };
   });
   const genres = genresList.map((v, i) => {
     const genre = $(v).find("a").text().trim();
@@ -139,6 +144,18 @@ const mangaFromMangaUrl = async (mangaUrl) => {
       dateUploaded,
     };
   });
+  console.log({
+    mangaImage,
+    author,
+    chapterNo: chapters ? chapters.split(" ")[1].split("-")[0] : "",
+    views: views ? views.split(" ")[1].split("-")[0] : "",
+    status,
+    description,
+    summary,
+    chapterList,
+    genres,
+    recommendations,
+  });
   return {
     mangaImage,
     author,
@@ -149,7 +166,7 @@ const mangaFromMangaUrl = async (mangaUrl) => {
     summary,
     chapterList,
     genres,
-    recommendations
+    recommendations,
   };
 };
 
@@ -158,7 +175,7 @@ const mangaReader = async (chapterUrl) => {
   const html = await res.text();
   const $ = cheerio.load(html);
   const imageChapterContainer = $(
-    $($(".page-in> center").toArray()[1]).find("div").toArray()[3]
+    $("#chapter-reader").toArray()
   );
   const chapterListContainer = $(".chapternav").toArray()[0];
   const chapterListMainContainer = $(chapterListContainer)
@@ -172,21 +189,24 @@ const mangaReader = async (chapterUrl) => {
     }
   });
   const finalImageArray = [];
-  let chapter;
+  let chapter = $("title").text();
   $(imageChapterContainer)
-    .find("center>img")
+    .find("img")
     .each((i, e) => {
       const image = $(e).attr("src");
-      chapter = $(e).attr("alt");
+      // chapter = $(e).attr("alt");
       finalImageArray.push(image);
     });
-  console.log(finalImageArray);
+  console.log({ chapter, images: finalImageArray, chapterList });
 
   return { chapter, images: finalImageArray, chapterList };
 };
 
+
 const mangaByGenre = async (genreUrl) => {
-  const res = await fetch(baseUrl + genreUrl);
+  const res = await fetch(
+    baseUrl + genreUrl.replace("/browse/", "/browse-comics/")
+  );
   const html = await res.text();
   const $ = cheerio.load(html);
   const genreMangaContainer = $(".novel-list > li").toArray();
@@ -205,7 +225,7 @@ const mangaByGenre = async (genreUrl) => {
 };
 
 const mangaSearch = async (term) => {
-  const res = await fetch(baseUrl + search + term);
+  const res = await fetch(backUpUrl + search2 + term);
   const $ = cheerio.load(res.resultview);
   const listOfResults = $(".novel-list.grid > .novel-item").toArray();
   const results = listOfResults.map((v, i) => {
@@ -214,14 +234,17 @@ const mangaSearch = async (term) => {
     const imageUrl = $(v).find("figure > img").attr("src");
     return { mangaUrl, title, imageUrl };
   });
+  console.log(results);
   return results;
 };
 
-mangaReader("/reader/en/limit-breaker-chapter-1-eng-li/");
+
+// mangaFromMangaUrl("/manga/return-of-the-legend/");
+// mangaReader("/reader/en/return-of-the-legend-chapter-2-eng-li/");
+// mangaSearch("work")
 
 module.exports = {
   newManga,
-  mangaByGenre,
   mangaByGenre,
   mangaReader,
   mangasByMostUpdated,
