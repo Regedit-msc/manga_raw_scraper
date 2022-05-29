@@ -3,7 +3,8 @@ const cheerio = require("cheerio");
 const baseUrl = "https://www.mcreader.net";
 const backUpUrl = "https://www.manga-raw.club";
 const mangaUpdates = "/listy/manga/";
-const mangasByMostUpdatedPaginated = "/listy/manga/?results=";
+// const mangasByMostUpdatedPaginated1 = "/listt/manga/?results=";
+const mangasByMostUpdatedPaginated = "/jumbo/manga/?results=";
 const search2 = "/lmangasearch?inputContent=";
 const search = "/api/v1/searchresults/?format=json&query=";
 const fetch = async (url) => {
@@ -83,7 +84,7 @@ const mostCliked = async () => {
 };
 
 const mangasByMostUpdated = async (page) => {
-  const res = await fetch(backUpUrl + mangasByMostUpdatedPaginated + page);
+  const res = await fetch(baseUrl + mangasByMostUpdatedPaginated + page);
   const html = await res.text();
   const $ = cheerio.load(html);
   const mangas = $(".novel-list.grid > .novel-item").toArray();
