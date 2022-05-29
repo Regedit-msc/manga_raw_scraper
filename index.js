@@ -41,7 +41,7 @@ async function newManga() {
   return arrayOfManga;
 }
 const mostViewed = async () => {
-  const res = await fetch(baseUrl + mangaUpdates);
+  const res = await fetch(backUpUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
   const mostViewed = $(".section-body").toArray()[0];
@@ -62,7 +62,7 @@ const mostViewed = async () => {
 };
 
 const mostCliked = async () => {
-  const res = await fetch(baseUrl + mangaUpdates);
+  const res = await fetch(backUpUrl + mangaUpdates);
   const html = await res.text();
   const $ = cheerio.load(html);
   const mostCliked = $(".section-body").toArray()[1];
@@ -83,7 +83,7 @@ const mostCliked = async () => {
 };
 
 const mangasByMostUpdated = async (page) => {
-  const res = await fetch(baseUrl + mangasByMostUpdatedPaginated + page);
+  const res = await fetch(backUpUrl + mangasByMostUpdatedPaginated + page);
   const html = await res.text();
   const $ = cheerio.load(html);
   const mangas = $(".novel-list.grid > .novel-item").toArray();
