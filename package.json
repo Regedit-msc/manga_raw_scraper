@@ -1,6 +1,6 @@
 {
   "name": "@regedit-msc/manga_raw_scraper",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "A scraper for manga raw.",
   "main": "./dist/index.js",
   "types": "./dist/@types/index.d.ts",
@@ -17,7 +17,15 @@
     "readme.md",
     "changelog.md"
   ],
-  "keywords": [],
+  "keywords": [
+    "manga",
+    "manga raw",
+    "scraper",
+    "manga raw scraper",
+    "manga scraper",
+    "manga reader",
+    "manga data"
+  ],
   "dependencies": {
     "cheerio": "^1.0.0"
   },
