@@ -1,21 +1,31 @@
 {
   "name": "@regedit-msc/manga_raw_scraper",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A scraper for manga raw.",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/@types/index.d.ts",
   "scripts": {
-    "dev": "nodemon index"
+    "watch": "tsc -w",
+    "build": "tsc",
+    "dev": "ts-node src/test.ts",
+    "release": "yarn build && standard-version -- --release-as patch && git push --follow-tags && npm publish"
   },
-  "keywords": [],
   "author": "Regedit-msc",
-  "license": "ISC",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "readme.md",
+    "changelog.md"
+  ],
+  "keywords": [],
   "dependencies": {
-    "axios": "^0.23.0",
-    "cheerio": "^1.0.0-rc.10"
+    "cheerio": "^1.0.0-"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13",
-    "puppeteer": "^13.0.1"
+    "@types/node": "^22.10.5",
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "repository": {
     "type": "git",
