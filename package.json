@@ -8,7 +8,7 @@
     "watch": "tsc -w",
     "build": "tsc",
     "dev": "ts-node src/test.ts",
-    "release": "yarn build && standard-version -- --release-as patch && npm publish"
+    "release": "yarn build && standard-version -- --release-as patch && git commit -am \"release\" && git push && npm publish"
   },
   "author": "Regedit-msc",
   "license": "MIT",
