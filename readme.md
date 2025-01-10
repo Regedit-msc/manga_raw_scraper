@@ -16,7 +16,7 @@ This codebase scrapes manga data from multiple sources using TypeScript and Chee
 ```bash
    yarn
 ```
-3. Build: 
+## Build: 
 ```bash
 yarn build
 ```
