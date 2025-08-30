@@ -27,8 +27,18 @@ type MangaFromUrl = {
 };
 
 async function mangaFromMangaUrlMangaGecko(source: string, mangaUrl: string) {
-  const res = await fetch(source + mangaUrl);
-  const chapterRes = await fetch(source + mangaUrl + "/all-chapters");
+  const headers = {
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+    Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    Referer: source,
+  };
+
+  const mainUrl = new URL(mangaUrl, source).href;
+  const chaptersUrl = new URL("all-chapters", mainUrl).href;
+
+  const res = await fetch(mainUrl, { headers });
+  const chapterRes = await fetch(chaptersUrl, { headers });
   const html = await res.text();
   const chapterHtml = await chapterRes.text();
   const ch$ = cheerio.load(chapterHtml);
