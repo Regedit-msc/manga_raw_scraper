@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.1.1...v2.1.2) (2025-08-30)
+
+
+### Bug Fixes
+
+* include mangaSource in chapterList return values for manga-from-url and manga-reader functions ([a8a2ae7](https://github.com/Regedit-msc/manga_raw_scraper/commit/a8a2ae7dfa7841bc94faaa384ac07888d97fda29))
+
 ### [2.1.1](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.1.0...v2.1.1) (2025-08-30)
 
 
