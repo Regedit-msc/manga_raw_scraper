@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.1.3...v2.1.4) (2025-08-30)
+
+
+### Bug Fixes
+
+* enhance mangaReader function to handle lazy-loaded images and deduplicate results ([b74c57c](https://github.com/Regedit-msc/manga_raw_scraper/commit/b74c57cd03948394602646ed0a67260ef3b2ae17))
+
 ### [2.1.3](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.1.2...v2.1.3) (2025-08-30)
 
 
