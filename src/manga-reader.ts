@@ -20,11 +20,11 @@ async function mangaReaderMangaGecko(source: string, chapterUrl: string) {
   const chapterListMainContainer = $(chapterListContainer)
     .find("select > option")
     .toArray();
-  const chapterList: { chapterUrl: string; chapterTitle: string }[] = [];
+  const chapterList: { chapterUrl: string; chapterTitle: string; mangaSource: string }[] = [];
   $(chapterListMainContainer).each((_, e) => {
     const chapter = $(e).attr("value");
     if (chapter) {
-      chapterList.push({ chapterUrl: chapter, chapterTitle: $(e).text() });
+      chapterList.push({ chapterUrl: chapter, chapterTitle: $(e).text(), mangaSource: source });
     }
   });
   const finalImageArray: string[] = [];

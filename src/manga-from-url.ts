@@ -110,7 +110,7 @@ const mangaFromMangaUrlBatoTo = async (source: string, mangaUrl: string) => {
     const chapterUrl = $(c).find("a").attr("href") || "";
     const chapterTitle = $(c).find("a > b").text() || "";
     const dateUploaded = $(c).find(".extra > i").text() || "";
-    return { chapterUrl, chapterTitle, dateUploaded };
+    return { chapterUrl, chapterTitle, dateUploaded, mangaSource: source };
   });
 
   const genres = $(mangaInfoList[3]).find("span > span").toArray();
