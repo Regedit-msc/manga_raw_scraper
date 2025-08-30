@@ -70,7 +70,7 @@ async function mangaFromMangaUrlMangaGecko(source: string, mangaUrl: string) {
     const chapterTitle = ch$(c).find("a > .chapter-title").text().trim() || "";
     const dateUploaded = ch$(c).find("a > time").attr("datetime") || "";
 
-    return { chapterUrl, chapterTitle, dateUploaded };
+    return { chapterUrl, chapterTitle, dateUploaded, mangaSource: source };
   });
 
   return {
