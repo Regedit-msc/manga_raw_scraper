@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.1.0...v2.1.1) (2025-08-30)
+
+
+### Bug Fixes
+
+* update release script and enhance fetch requests with headers in manga-from-url.ts ([c5b3a01](https://github.com/Regedit-msc/manga_raw_scraper/commit/c5b3a0145ce059e97abb2250b0205184b58cb440))
+
 ## [2.1.0](https://github.com/Regedit-msc/manga_raw_scraper/compare/v2.0.4...v2.1.0) (2025-01-10)
 
 
